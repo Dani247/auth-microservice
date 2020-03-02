@@ -1,20 +1,29 @@
-const express = require("express");
-const app = express();
-const cors = require("cors");
-const bodyParser = require("body-parser");
+const express = require('express')
+const app = express()
+const cors = require('cors')
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose')
+require('dotenv').config()
 
-app.use(cors());
-app.use(bodyParser.json());
+// middleware
+app.use(cors())
+app.use(bodyParser.json())
 
-const userRouter = require("./routes/User.routes");
+const userRouter = require('./routes/User.routes')
 
-app.use("/auth", userRouter);
+app.use('/auth', userRouter)
 
-//create a server object:
-app.listen(8080, err => {
+// connect to mongo
+mongoose.connect(process.env.MONGO_URI, err => {
   if (err) {
-    console.error("ERROR... server didn't run");
-    console.log(err);
+    throw new Error(err)
   }
-  console.log(`Server running...`);
-});
+  //create a server object:
+  app.listen(8080, err => {
+    if (err) {
+      console.error("ERROR... server didn't run")
+      throw new Error(err)
+    }
+    console.log(`Server running...`)
+  })
+})
