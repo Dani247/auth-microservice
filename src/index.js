@@ -19,7 +19,7 @@ mongoose.connect(process.env.MONGO_URI, err => {
     throw new Error(err)
   }
   //create a server object:
-  app.listen(8080, err => {
+  app.listen(process.env.PORT || 8080, err => {
     if (err) {
       console.error("ERROR... server didn't run")
       throw new Error(err)
